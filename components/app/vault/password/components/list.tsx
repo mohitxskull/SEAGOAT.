@@ -1,14 +1,16 @@
 import {
   ActionIcon,
+  Button,
   Card,
   Group,
   Menu,
   Paper,
   SimpleGrid,
   Text,
+  TextInput,
 } from '@mantine/core';
 import { useClipboard } from '@mantine/hooks';
-import { openConfirmModal } from '@mantine/modals';
+import { closeAllModals, openConfirmModal, useModals } from '@mantine/modals';
 import React, { useContext } from 'react';
 import {
   Binary,
@@ -28,8 +30,10 @@ const ListPasswordCom = () => {
     DeletePassword,
     setPasswordVaultState,
     setUidToEdit,
+    PasswordListEnc,
   } = useContext(PasswordContext);
   const Clipboard = useClipboard({ timeout: 600 });
+  const Modals = useModals();
   // const Smallscreen = useMediaQuery('(max-width: 450px)', true);
 
   const DeletePasswordModal = (UID: string, NAME: string, USERNAME: string) => {
@@ -37,6 +41,7 @@ const ListPasswordCom = () => {
       title: 'Delete password?',
       centered: true,
       radius: 'md',
+      withCloseButton: false,
       children: (
         <>
           <Text size="sm">
@@ -77,6 +82,44 @@ const ListPasswordCom = () => {
       cancelProps: { variant: 'light' },
       onCancel: () => {},
       onConfirm: () => DeletePassword(UID),
+    });
+  };
+
+  const EncryptedPasswordModal = (UID: string) => {
+    const SearchRes = PasswordListEnc.filter(
+      (PASSWORDOBJ) => PASSWORDOBJ.uid === UID
+    );
+
+    Modals.openModal({
+      title: 'Encrypted',
+      withCloseButton: false,
+      radius: 'md',
+      centered: true,
+      children: (
+        <>
+          <TextInput label="Name" readOnly value={SearchRes[0].name} />
+          <TextInput
+            mt="sm"
+            label="Username"
+            readOnly
+            value={SearchRes[0].username}
+          />
+          <TextInput
+            mt="sm"
+            label="Password"
+            readOnly
+            value={SearchRes[0].password}
+          />
+          <Button
+            variant="outline"
+            onClick={() => closeAllModals()}
+            fullWidth
+            mt="lg"
+          >
+            Close
+          </Button>
+        </>
+      ),
     });
   };
 
@@ -185,7 +228,12 @@ const ListPasswordCom = () => {
                         >
                           Edit
                         </Menu.Item>
-                        <Menu.Item icon={<Binary size={18} />}>
+                        <Menu.Item
+                          onClick={() =>
+                            EncryptedPasswordModal(PASSWORDOBJ.uid)
+                          }
+                          icon={<Binary size={18} />}
+                        >
                           Encrypted
                         </Menu.Item>
                         <Menu.Divider />

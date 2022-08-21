@@ -23,6 +23,8 @@ import AES256 from '../helpers/functions/aes256Fun';
 interface PasswordContextInterface {
   PasswordListDec: PasswordObjTypes[];
   PasswordListDecHandlers: any;
+  PasswordListEnc: PasswordObjTypes[];
+  PasswordListEncHandlers: any;
   PasswordToSearch: string | null;
   setPasswordToSearch: Dispatch<SetStateAction<string | null>>;
   PasswordVaultState: PasswordVaultStateType;
@@ -42,6 +44,8 @@ interface PasswordContextInterface {
 export const PasswordContext = createContext<PasswordContextInterface>({
   PasswordListDec: [],
   PasswordListDecHandlers: (): any => {},
+  PasswordListEnc: [],
+  PasswordListEncHandlers: (): any => {},
   PasswordToSearch: '',
   setPasswordToSearch: () => {},
   PasswordVaultState: 'list',
@@ -62,6 +66,9 @@ export const PasswordProvider = ({ children }: any) => {
   const [PasswordListDec, PasswordListDecHandlers] =
     useListState<PasswordObjTypes>([]);
 
+  const [PasswordListEnc, PasswordListEncHandlers] =
+    useListState<PasswordObjTypes>([]);
+
   const [PasswordVaultLoadingText, setPasswordVaultLoadingText] = useState('');
   const [PasswordToSearch, setPasswordToSearch] = useState<string | null>(null);
   const [PasswordVaultState, setPasswordVaultState] =
@@ -80,6 +87,8 @@ export const PasswordProvider = ({ children }: any) => {
       if (error) throw FunResCons(400, error);
 
       console.log(data);
+
+      PasswordListEncHandlers.setState(data);
 
       if (data.length < 1) {
         setTimeout(() => setPublicLoading(false), 1000);
@@ -170,11 +179,16 @@ export const PasswordProvider = ({ children }: any) => {
 
         if (error) throw FunResCons(400, error);
 
-        PasswordListDec.forEach((PASSWORDOBJ, INDEX) => {
-          if (PASSWORDOBJ.uid === UID) {
-            PasswordListDecHandlers.remove(INDEX);
+        for (
+          let PASSOBJADDR = 0;
+          PASSOBJADDR < PasswordListDec.length;
+          PASSOBJADDR += 1
+        ) {
+          if (PasswordListDec[PASSOBJADDR].uid === UID) {
+            PasswordListDecHandlers.remove(PASSOBJADDR);
+            break;
           }
-        });
+        }
 
         Noti('Password deleted!', 'Info');
       } else {
@@ -240,6 +254,8 @@ export const PasswordProvider = ({ children }: any) => {
       ]);
 
       if (error) throw FunResCons(500, error);
+
+      PasswordListEncHandlers.append(data[0]);
 
       PasswordListDecHandlers.append({
         uid: data[0].uid,
@@ -320,6 +336,11 @@ export const PasswordProvider = ({ children }: any) => {
         })
       );
 
+      PasswordListEncHandlers.applyWhere(
+        (PASSWORDOBJ) => PASSWORDOBJ.uid === UidToEdit,
+        () => data[0]
+      );
+
       setUidToEdit(null);
       setPasswordVaultState('list');
       Noti('Password saved!', 'Done');
@@ -367,6 +388,8 @@ export const PasswordProvider = ({ children }: any) => {
         UidToEdit,
         setUidToEdit,
         EditPasswordFun,
+        PasswordListEncHandlers,
+        PasswordListEnc,
       }}
     >
       {children}
