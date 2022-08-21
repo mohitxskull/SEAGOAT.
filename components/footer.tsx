@@ -6,7 +6,7 @@ import {
   ActionIcon,
   Text,
 } from '@mantine/core';
-import { BrandGithub, Binary } from 'tabler-icons-react';
+import { BrandGithub } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -59,14 +59,14 @@ const Footer = () => {
         <Group spacing={1} className={classes.links} position="right" noWrap>
           <ActionIcon
             component="a"
-            href="https://github.com/highRisk1"
+            href="https://github.com/servedbyskull/SEAGOAT."
             size="lg"
           >
             <BrandGithub size={18} />
           </ActionIcon>
-          <ActionIcon component="a" href="/dev" size="lg">
+          {/* <ActionIcon disabled component="a" href="/dev" size="lg">
             <Binary size={18} />
-          </ActionIcon>
+          </ActionIcon> */}
         </Group>
       </Container>
     </div>

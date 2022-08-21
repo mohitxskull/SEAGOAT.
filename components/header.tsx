@@ -65,7 +65,7 @@ const MainHeader = () => {
               <Menu
                 position="bottom-end"
                 withArrow
-                trigger="hover"
+                trigger="click"
                 shadow="md"
                 width={200}
               >

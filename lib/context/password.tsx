@@ -34,6 +34,9 @@ interface PasswordContextInterface {
   GetPasswordList: any;
   DeletePassword: any;
   AddPassword: any;
+  setUidToEdit: Dispatch<SetStateAction<string | null>>;
+  UidToEdit: string | null;
+  EditPasswordFun: any;
 }
 
 export const PasswordContext = createContext<PasswordContextInterface>({
@@ -50,6 +53,9 @@ export const PasswordContext = createContext<PasswordContextInterface>({
   GetPasswordList: () => {},
   DeletePassword: () => {},
   AddPassword: () => {},
+  UidToEdit: null,
+  setUidToEdit: () => {},
+  EditPasswordFun: () => {},
 });
 
 export const PasswordProvider = ({ children }: any) => {
@@ -60,6 +66,8 @@ export const PasswordProvider = ({ children }: any) => {
   const [PasswordToSearch, setPasswordToSearch] = useState<string | null>(null);
   const [PasswordVaultState, setPasswordVaultState] =
     useState<PasswordVaultStateType>('list');
+
+  const [UidToEdit, setUidToEdit] = useState<string | null>(null);
 
   const [PublicLoading, setPublicLoading] = useState(true);
   const Router = useRouter();
@@ -266,6 +274,76 @@ export const PasswordProvider = ({ children }: any) => {
     }
   };
 
+  const EditPasswordFun = async (
+    NAME: string,
+    USERNAME: string,
+    PASSWORD: string
+  ) => {
+    try {
+      const CoreKey = Key.Core.Get();
+
+      if (!CoreKey) {
+        throw FunResCons(400, 'Session expired, Unlock vault again!');
+      }
+
+      if (!Key.Core.ValidFormat(CoreKey)) {
+        throw FunResCons(400, 'Invalid CoreKey format!', 1);
+      }
+
+      const EncNAME = AES256.Enc(CoreKey, NAME);
+      const EncUSERNAME = AES256.Enc(CoreKey, USERNAME);
+      const EncPASSWORD = AES256.Enc(CoreKey, PASSWORD);
+
+      const { data, error } = await Supabase.from('passwords')
+        .update({
+          name: EncNAME.Res,
+          username: EncUSERNAME.Res,
+          password: EncPASSWORD.Res,
+        })
+        .match({ uid: UidToEdit });
+
+      if (error) throw FunResCons(500, error);
+
+      PasswordListDecHandlers.applyWhere(
+        (PASSWORDOBJ) => PASSWORDOBJ.uid === UidToEdit,
+        () => ({
+          uid: data[0].uid,
+          name: NAME,
+          username: USERNAME,
+          password: PASSWORD,
+          inserted_at: data[0].inserted_at,
+          updated_at: data[0].updated_at,
+        })
+      );
+
+      setUidToEdit(null);
+      setPasswordVaultState('list');
+      Noti('Password saved!', 'Done');
+    } catch (e: any) {
+      if ('Status' in e) {
+        if (e.Status === 400) {
+          Key.Core.Clear();
+          Noti(e.Res, 'Info');
+          Router.push('/vault');
+        } else if (e.Status === 500) {
+          Noti(e.Res.error_description || e.Res.message, 'Error');
+          LogError(e.Res, 'rzix80HFrIz0Qm09VZJu8');
+        } else {
+          Noti(
+            'There is an error while updating your password!, Check console.',
+            'Error'
+          );
+
+          LogError(e, 'PrmKc1QI3ivnpuEZei8y_');
+        }
+      } else {
+        Noti(null, 'Critical');
+        SupabaseLogout();
+        LogError(e, '8moNmKiUtfEhv5v_ziXcz');
+      }
+    }
+  };
+
   return (
     <PasswordContext.Provider
       value={{
@@ -282,6 +360,9 @@ export const PasswordProvider = ({ children }: any) => {
         GetPasswordList,
         DeletePassword,
         AddPassword,
+        UidToEdit,
+        setUidToEdit,
+        EditPasswordFun,
       }}
     >
       {children}

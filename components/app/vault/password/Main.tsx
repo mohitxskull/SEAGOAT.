@@ -5,8 +5,9 @@ import { PasswordContext } from '../../../../lib/context/password';
 import Key from '../../../../lib/helpers/functions/keyFuns';
 import MainHeader from '../../../header';
 import PasswordHeader from './header';
-import PasswordList from './components/list';
-import AddPassword from './components/add';
+import ListPasswordCom from './components/list';
+import AddPasswordCom from './components/add';
+import EditPasswordCom from './components/edit';
 
 const PasswordVault = () => {
   const {
@@ -70,19 +71,20 @@ const PasswordVault = () => {
                 <PasswordHeader />
 
                 <Container fluid mt="md">
-                  {PasswordVaultState === 'add' ? (
-                    <AddPassword />
-                  ) : PasswordListDec.length > 0 ? (
-                    <PasswordList />
-                  ) : (
-                    <Center mt={150}>
-                      <SimpleGrid cols={1}>
-                        <Text color="dimmed" size="xl" weight="bolder">
-                          Empty!
-                        </Text>
-                      </SimpleGrid>
-                    </Center>
-                  )}
+                  {PasswordVaultState === 'edit' && <EditPasswordCom />}
+                  {PasswordVaultState === 'add' && <AddPasswordCom />}
+                  {PasswordVaultState === 'list' &&
+                    (PasswordListDec.length > 0 ? (
+                      <ListPasswordCom />
+                    ) : (
+                      <Center mt={150}>
+                        <SimpleGrid cols={1}>
+                          <Text color="dimmed" size="xl" weight="bolder">
+                            Empty!
+                          </Text>
+                        </SimpleGrid>
+                      </Center>
+                    ))}
                 </Container>
               </Container>
             </>

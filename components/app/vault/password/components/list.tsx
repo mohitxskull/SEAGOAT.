@@ -10,12 +10,25 @@ import {
 import { useClipboard } from '@mantine/hooks';
 import { openConfirmModal } from '@mantine/modals';
 import React, { useContext } from 'react';
-import { Copy, DotsVertical, Edit, Key, Trash, User } from 'tabler-icons-react';
+import {
+  Binary,
+  Copy,
+  DotsVertical,
+  Edit,
+  Key,
+  Trash,
+  User,
+} from 'tabler-icons-react';
 import { PasswordContext } from '../../../../../lib/context/password';
 
-const PasswordList = () => {
-  const { PasswordListDec, PasswordToSearch, DeletePassword } =
-    useContext(PasswordContext);
+const ListPasswordCom = () => {
+  const {
+    PasswordListDec,
+    PasswordToSearch,
+    DeletePassword,
+    setPasswordVaultState,
+    setUidToEdit,
+  } = useContext(PasswordContext);
   const Clipboard = useClipboard({ timeout: 600 });
   // const Smallscreen = useMediaQuery('(max-width: 450px)', true);
 
@@ -163,7 +176,18 @@ const PasswordList = () => {
                       </Menu.Target>
                       <Menu.Dropdown>
                         <Menu.Label>Options</Menu.Label>
-                        <Menu.Item icon={<Edit size={18} />}>Edit</Menu.Item>
+                        <Menu.Item
+                          onClick={() => {
+                            setUidToEdit(PASSWORDOBJ.uid);
+                            setPasswordVaultState('edit');
+                          }}
+                          icon={<Edit size={18} />}
+                        >
+                          Edit
+                        </Menu.Item>
+                        <Menu.Item icon={<Binary size={18} />}>
+                          Encrypted
+                        </Menu.Item>
                         <Menu.Divider />
                         <Menu.Item
                           onClick={() =>
@@ -190,4 +214,4 @@ const PasswordList = () => {
   );
 };
 
-export default PasswordList;
+export default ListPasswordCom;

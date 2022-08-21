@@ -34,6 +34,7 @@ const PasswordHeader = () => {
     PasswordVaultState,
     setPasswordVaultState,
     GetPasswordList,
+    setUidToEdit,
   } = useContext(PasswordContext);
 
   const [AllowRefresh, setAllowRefresh] = useState(false);
@@ -52,7 +53,7 @@ const PasswordHeader = () => {
       height={60}
     >
       <Container fluid className={classes.inner}>
-        {PasswordVaultState === 'list' ? (
+        {PasswordVaultState === 'list' && (
           <>
             <Select
               placeholder="Name"
@@ -78,11 +79,9 @@ const PasswordHeader = () => {
                 })
               )}
             />
-            {/* <ActionIcon onClick={() => console.log(PasswordListDec)}>
-              <Wifi />
-            </ActionIcon> */}
           </>
-        ) : (
+        )}
+        {PasswordVaultState === 'add' && (
           <Text
             sx={{
               fontSize: '25px',
@@ -94,6 +93,20 @@ const PasswordHeader = () => {
             weight={900}
           >
             Add Password
+          </Text>
+        )}
+        {PasswordVaultState === 'edit' && (
+          <Text
+            sx={{
+              fontSize: '25px',
+              cursor: 'pointer',
+              fontFamily: 'Bebas Neue, cursive',
+              letterSpacing: 0.5,
+            }}
+            py="auto"
+            weight={900}
+          >
+            Edit Password
           </Text>
         )}
 
@@ -135,7 +148,10 @@ const PasswordHeader = () => {
             <Tooltip label="Password list" position="top-end" withArrow>
               <ActionIcon
                 variant="transparent"
-                onClick={() => setPasswordVaultState('list')}
+                onClick={() => {
+                  setUidToEdit(null);
+                  setPasswordVaultState('list');
+                }}
               >
                 <LayoutList />
               </ActionIcon>

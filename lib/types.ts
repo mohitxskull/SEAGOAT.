@@ -5,7 +5,7 @@ export interface VaultObjTypes {
 
 export type VaultStateType = 'Loading' | 'Setup' | 'Open';
 
-export type PasswordVaultStateType = 'list' | 'add';
+export type PasswordVaultStateType = 'list' | 'add' | 'edit';
 
 export type FunResStatusType = 200 | 300 | 400 | 500;
 

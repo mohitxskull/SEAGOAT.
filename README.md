@@ -1,11 +1,11 @@
-# [SEAGOAT](https://seagoat.vercel.app/) 
+# [SEAGOAT](https://seagoat.vercel.app/)
 
 <div style="display:flex">
 <img src="https://i.giphy.com/media/mDSGaOdQxzdseSPdAi/giphy.webp" alt="drawing" height="200"/>
 <img src="https://i.giphy.com/media/Lqmp9tVPIvtyyKQneQ/giphy.webp" alt="drawing" height="200"/>
 </div>
 
-## Tech stack
+## Built with
 - [Supabase](https://supabase.com/)
     - Supabase is used for authentication and storing encrypted data.
     - Each table is secured by RLS ([```Row Level Security```](https://supabase.com/docs/learn/auth-deep-dive/auth-row-level-security)) policies.
@@ -29,5 +29,8 @@ On dev path you can see how encryption works in seagoat.
 - Tools
     - Password generator
     - Password breach
+
+## License
+Distributed under the MIT License. See `LICENSE.md` for more information.
 ---
 > Made and Designed by [`Skull`](https://www.instagram.com/mohitxskull.dev/)
