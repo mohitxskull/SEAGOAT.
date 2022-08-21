@@ -31,6 +31,8 @@ On dev path you can see how encryption works in seagoat.
     - Password breach
 
 ## License
+
 Distributed under the MIT License. See `LICENSE.md` for more information.
+
 ---
 > Made and Designed by [`Skull`](https://www.instagram.com/mohitxskull.dev/)
