@@ -73,6 +73,7 @@ export const PasswordProvider = ({ children }: any) => {
   const Router = useRouter();
 
   const GetPasswordList = async () => {
+    setPasswordToSearch(null);
     try {
       setPublicLoading(true);
       const { data, error } = await Supabase.from('passwords').select();
@@ -156,6 +157,7 @@ export const PasswordProvider = ({ children }: any) => {
 
   const DeletePassword = async (UID: string) => {
     setPublicLoading(true);
+    setPasswordToSearch(null);
     try {
       const SearchRes = PasswordListDec.filter(
         (PASSWORDOBJ) => PASSWORDOBJ.uid === UID
@@ -212,6 +214,7 @@ export const PasswordProvider = ({ children }: any) => {
     USERNAME: string,
     PASSWORD: string
   ) => {
+    setPasswordToSearch(null);
     try {
       const CoreKey = Key.Core.Get();
 
@@ -279,6 +282,7 @@ export const PasswordProvider = ({ children }: any) => {
     USERNAME: string,
     PASSWORD: string
   ) => {
+    setPasswordToSearch(null);
     try {
       const CoreKey = Key.Core.Get();
 

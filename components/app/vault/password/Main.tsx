@@ -67,7 +67,7 @@ const PasswordVault = () => {
             </>
           ) : (
             <>
-              <Container fluid mt="md">
+              <Container fluid mt="md" mb="xl">
                 <PasswordHeader />
 
                 <Container fluid mt="md">
