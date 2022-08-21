@@ -16,15 +16,15 @@
 - BcryptJS
 
 ## To do
-- Add Encryption Flowchat to README
-- ```/dev/```
-On dev path you can see how encryption works in seagoat.
 - Settings page
     - Change password
     - Change vault password
     - Change username
-    - Lock vault is not active for X minutes
+    - Lock vault is not active for X minutes ([`idletimer`](https://idletimer.dev/))
 - Folders
+- Add Encryption Flowchat to README
+- ```/dev/```
+On dev path you can see how encryption works in seagoat.
 - New input options in add form
 - Tools
     - Password generator
