@@ -16,6 +16,7 @@
 - BcryptJS
 
 ## To do
+- ~~View encrypted password~~
 - Settings page
     - Change password
     - Change vault password
