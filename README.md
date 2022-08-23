@@ -22,7 +22,7 @@
     - Change vault password
     - Change username
     - Lock vault is not active for X minutes ([`idletimer`](https://github.com/SupremeTechnopriest/react-idle-timer))
-- Ghost folders/passwords ([`see`](https://github.com/cryptee/web-client/issues/142))
+- Ghost folders/passwords ([`see`](https://github.com/cryptee/web-client/issues/33))
 - Folders
 - Add Encryption Flowchat to README
 - ```/dev/```
