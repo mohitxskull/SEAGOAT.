@@ -9,8 +9,9 @@ import {
   Text,
   List,
   ThemeIcon,
+  Alert,
 } from '@mantine/core';
-import { Check } from 'tabler-icons-react';
+import { AlertTriangle, Check } from 'tabler-icons-react';
 import { NextLink } from '@mantine/next';
 import Footer from '../components/footer';
 
@@ -18,7 +19,7 @@ const useStyles = createStyles((theme) => ({
   inner: {
     display: 'flex',
     justifyContent: 'space-between',
-    paddingTop: theme.spacing.xl * 4,
+    paddingTop: theme.spacing.xl * 1,
     paddingBottom: theme.spacing.xl * 4,
   },
 
@@ -66,6 +67,17 @@ export default function HeroBullets() {
   return (
     <div>
       <Container>
+        <Alert
+          mt="xl"
+          radius="md"
+          icon={<AlertTriangle size={16} />}
+          title="Warning!"
+          color="yellow"
+        >
+          SEAGOAT is in beta mode, so don&apos;t use it to store something
+          really confidential. You can help me by giving suggestions, or by
+          writing some code or by giving a star on Github!
+        </Alert>
         <div className={classes.inner}>
           <div className={classes.content}>
             <Title className={classes.title}>
@@ -138,7 +150,7 @@ export default function HeroBullets() {
               </Button>
             </Group>
           </div>
-          <Image alt="" src="/sky.jpg" className={classes.image} />
+          <Image radius="lg" alt="" src="/sky.jpg" className={classes.image} />
         </div>
       </Container>
       <Footer />
