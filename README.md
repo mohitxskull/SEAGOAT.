@@ -1,4 +1,5 @@
-# [SEAGOAT](https://seagoat.vercel.app/)
+# [SEAGOAT](https://seagoat.vercel.app/) 
+`V:Gross:0.1.002-Beta`
 
 <div style="display:flex">
 <img src="https://i.giphy.com/media/mDSGaOdQxzdseSPdAi/giphy.webp" alt="drawing" height="200"/>
